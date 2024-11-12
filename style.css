@@ -1,0 +1,79 @@
+body {
+    min-width: 360px;
+    text-align: center;
+}
+
+.app-name {
+    margin-top: 30px;
+}
+
+.search_form_container {
+    margin: 25px auto auto auto;
+}
+
+#searchRepository .input {
+    font-size: 18px;
+    padding-left: 5px;
+    width: 304px;
+    height: 32px;
+    outline: none;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+}
+
+#autocomplete {
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    margin-left: -150px;
+    z-index: 1;
+    text-align: left;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.option {
+    margin: 10px;
+}
+
+.option:hover {
+    cursor: pointer;
+}
+
+.rep-elem {
+    position: relative;
+    display: grid;
+    grid-template-columns: 90% 10%;
+    align-items: center;
+    text-align: left;
+    width: 280px;
+    height: auto;
+    border-radius: 0 0 5px 5px;
+    margin: 0 auto;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.rep-elem p {
+    font-size: 18px;
+    line-height: 24px;
+    margin: 0;
+}
+
+.rep-name {
+    color: red;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 18px;
+    margin: 0;
+}
+
+.close {
+    margin-right: 10%;
+    grid-column: 2/2;
+    grid-row: 1/4;
+}
+
+.close:hover {
+    cursor: pointer;
+}

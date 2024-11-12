@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <title>JS_final</title>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+
+    <body>
+        <h1 class="app-name">Repository finder</h1>
+        <div class="search_form_container">
+            <form id="searchRepository">
+                <input type="search" class="input" list="options" name="name" placeholder="type repository name" autocomplete="off">
+            </form>
+        </div>
+
+        <div id="autocomplete"></div>
+        <div class="elements"></div>
+
+
+        <template id="repository-template">
+            <div class="rep-elem">
+                <p class="rep-name">text1</p>
+                <p>text2</p>
+                <p>&star;</p>
+                <img src="./pics/cross.svg" class="close">
+            </div>
+        </template>
+
+    </body>
+</html>
+<script src="./script.js"></script>
