@@ -5,7 +5,7 @@ const elements = document.querySelector('.elements');
 const repository_template = document.getElementById('repository-template').content;
 const rep_elem = repository_template.querySelector('.rep-elem');
 const getDelay = 300;
-let nowTime;
+//let nowTime;
 
 searchRepository.oninput = async (event) => {
   event.preventDefault();
@@ -57,7 +57,7 @@ searchRepository.oninput = async (event) => {
 async function getData(val) {
   response = await fetch(`https://api.github.com/search/repositories?q=${val}`, 
     { method: 'GET', });
-  alert(Date.now() - nowTime);
+  //alert(Date.now() - nowTime);
 };
 
 const debounce = (fn, delay) => {
