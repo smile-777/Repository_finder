@@ -9,7 +9,7 @@ const getDelay = 300;
 
 searchRepository.oninput = async (event) => {
   event.preventDefault();
-  nowTime = Date.now();
+  //nowTime = Date.now();
   
   if (searchRepository.name.value.length) {
     try {
