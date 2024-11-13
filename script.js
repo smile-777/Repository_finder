@@ -4,7 +4,7 @@ const autocomplete = document.getElementById('autocomplete');
 const elements = document.querySelector('.elements');
 const repository_template = document.getElementById('repository-template').content;
 const rep_elem = repository_template.querySelector('.rep-elem');
-const getDelay = 300;
+const getDelay = 700;
 
 searchRepository.oninput = async (event) => {
   event.preventDefault();
