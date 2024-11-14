@@ -5,11 +5,9 @@ const elements = document.querySelector('.elements');
 const repository_template = document.getElementById('repository-template').content;
 const rep_elem = repository_template.querySelector('.rep-elem');
 const getDelay = 500;
-//let nowTime;
 
 searchRepository.oninput = async (event) => {
   event.preventDefault();
-  //nowTime = Date.now();
   
   if (searchRepository.name.value.length) {
     try {
@@ -35,9 +33,6 @@ searchRepository.oninput = async (event) => {
             closeCross.addEventListener("click", () => clone.remove(), { once: true });
             elements.appendChild(clone);
             form_input.value = '';
-            while(autocomplete.firstChild){
-              autocomplete.removeChild(autocomplete.firstChild);
-            }
           });
           autocomplete.appendChild(option);
         }
@@ -57,7 +52,6 @@ searchRepository.oninput = async (event) => {
 async function getData(val) {
   response = await fetch(`https://api.github.com/search/repositories?q=${val}`, 
     { method: 'GET', });
-  //alert(Date.now() - nowTime);
 };
 
 const debounce = (fn, delay) => {
