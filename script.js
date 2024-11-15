@@ -44,6 +44,7 @@ searchRepository.oninput = async (event) => {
       }
     } catch(err) {
         console.log(err);
+        clearAutocomplete();
         const option = document.createElement("p");
 
         if (err.message.includes("full_name")) {
