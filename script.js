@@ -47,6 +47,7 @@ searchRepository.oninput = async (event) => {
   //controller.abort();
 
   clearAutocomplete();
+  addSpiner();
 
   preloader.classList.add("visible");
 
@@ -62,7 +63,7 @@ searchRepository.oninput = async (event) => {
 
       preloader.classList.remove("visible");
 
-
+      clearAutocomplete();
 
       for (let i = 0; i < 5; i++) {
 
@@ -252,4 +253,11 @@ function addOptionListener(option) {
 
   form_input.value = '';
 
+}
+
+function addSpiner() {
+  const spiner = document.createElement("img");
+  spiner.src = "./pics/spiner.svg";
+  spiner.classList.add("spiner");
+  autocomplete.appendChild(spiner);
 }
