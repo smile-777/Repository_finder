@@ -31,9 +31,12 @@ searchRepository.oninput = async (event) => {
     try {
       const response = await debounceGetData(searchRepository.name.value).then(res => res());
       const responseJson = await response.json();
+      const reposCount = responseJson["items"].length >= 5 ? 5 : responseJson["items"].length;
       clearAutocomplete();
+      
+      if (reposCount === 0) throw new Error("repository not found");
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < reposCount; i++) {
         const optionName = responseJson["items"][i];
         const option = document.createElement("p");
         option.addEventListener("click", addOptionListener.bind(this, optionName));
@@ -42,8 +45,8 @@ searchRepository.oninput = async (event) => {
     } catch(err) {
         console.log(err);
         const option = document.createElement("p");
-        if (err.message.includes("full_name")) {
-          postAutocomplete(option, "такого репозитория нет");
+        if (err.message.includes("repository not found")) {
+          postAutocomplete(option, err.message);
         }
     };
   } else {
@@ -52,13 +55,12 @@ searchRepository.oninput = async (event) => {
 };
 
 async function getData(val) {
-  //console.log("fetch!");
   try {
     return await fetch(`https://api.github.com/search/repositories?q=${val}`, 
       { method: 'GET', 
         signal: controller.signal,
       });
-    } catch {}
+    } catch(err) {console.log(err);}
 };
 
 const debounce = (fn, delay) => {
