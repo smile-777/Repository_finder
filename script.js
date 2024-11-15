@@ -36,7 +36,7 @@ searchRepository.oninput = async (event) => {
       const response = await debounceGetData(searchRepository.name.value).then(res => {
         //controller = null;
         return res();
-      });
+      }).catch(e) {alert(e)};
       controller = null;
       const responseJson = await response.json();
       preloader.classList.remove("visible");
