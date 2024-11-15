@@ -5,14 +5,13 @@ const repository_template = document.getElementById('repository-template').conte
 const rep_elem = repository_template.querySelector('.rep-elem');
 const preloader = document.querySelector(".preloader");
 const getDelay = 500;
-let controller = new AbortController();
-let signal = controller.signal;
+let controller;
+let signal;
 let reposMap;
 //localStorage.clear();
 
 if (localStorage.getItem("repositories")){
   reposMap = new Map(Object.entries(JSON.parse(localStorage.getItem("repositories"))));
-
   for (let repository of reposMap) {
     renderCard(repository[1], repository[0]);
   }
@@ -22,31 +21,28 @@ if (localStorage.getItem("repositories")){
 
 searchRepository.oninput = async (event) => {
   event.preventDefault();
-
-  //controller.abort();
-
   clearAutocomplete();
   addSpiner();
+
+  if (controller) {
+    controller.abort();
+  }
 
   if (searchRepository.name.value.length) {
     try {
       const response = await debounceGetData(searchRepository.name.value).then(res => res());
       const responseJson = await response.json();
-      preloader.classList.remove("visible");
       clearAutocomplete();
 
       for (let i = 0; i < 5; i++) {
         const optionName = responseJson["items"][i];
         const option = document.createElement("p");
-        option.classList.add("option");
         option.addEventListener("click", addOptionListener.bind(this, optionName));
         postAutocomplete(option, optionName["full_name"]);
       }
     } catch(err) {
         console.log(err);
-        clearAutocomplete();
         const option = document.createElement("p");
-
         if (err.message.includes("full_name")) {
           postAutocomplete(option, "такого репозитория нет");
         }
@@ -60,18 +56,23 @@ searchRepository.oninput = async (event) => {
 //======== functions =========
 
 async function getData(val) {
+  //console.log("fetch!");
   try {
     return await fetch(`https://api.github.com/search/repositories?q=${val}`, 
       { method: 'GET', 
         signal: controller.signal,
       });
-  } catch {}
+    } catch {}
 };
 
 const debounce = (fn, delay) => {
   let timerId;
   return function(...args) {
     if (timerId) clearTimeout(timerId);
+
+    controller = new AbortController();
+    signal = controller.signal;
+
     return new Promise(resolve => {
       let delayFn = fn.bind(this, ...args);
       timerId = setTimeout(() => resolve(delayFn), delay);
@@ -112,6 +113,7 @@ function writeToStorage(data) {
 }
 
 function postAutocomplete(option, content) {
+  option.classList.add("option");
   option.textContent = content;
   autocomplete.appendChild(option);
 }
@@ -129,7 +131,7 @@ function addOptionListener(option) {
   if (reposMapSize !== reposMap.size) {
     renderCard(option, option["full_name"]);
   }
-  form_input.value = '';
+  //form_input.value = '';
 }
 
 function addSpiner() {

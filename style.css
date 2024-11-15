@@ -79,13 +79,8 @@ body {
 }
 
 .preloader {
-    display: none;
-    height: 50px;
+    width: 50px;
     position: relative;
     left: 50%;
     margin-left: -30px;
-}
-
-.visible {
-    display: block;
 }
