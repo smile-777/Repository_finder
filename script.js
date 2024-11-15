@@ -64,7 +64,7 @@ searchRepository.oninput = async (event) => {
 
 
 
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 5; i++) {
 
         const optionName = responseJson["items"][i];
 
