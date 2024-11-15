@@ -5,8 +5,9 @@ const repository_template = document.getElementById('repository-template').conte
 const rep_elem = repository_template.querySelector('.rep-elem');
 const preloader = document.querySelector(".preloader");
 const getDelay = 500;
-let controller = new AbortController();
-let signal = controller.signal;
+let controller;
+//let controller = new AbortController();
+//let signal = controller.signal;
 let reposMap;
 //localStorage.clear();
 
@@ -21,13 +22,19 @@ if (localStorage.getItem("repositories")){
 
 searchRepository.oninput = async (event) => {
   event.preventDefault();
-  //controller.abort();
+  if (controller) {
+    controller.abort();
+  }
+  controller = new AbortController();
+  const signal = controller.signal;
+  
   clearAutocomplete();
   preloader.classList.add("visible");
   
   if (searchRepository.name.value.length) {
     try {
       const response = await debounceGetData(searchRepository.name.value).then(res => res());
+      controller = null;
       const responseJson = await response.json();
       preloader.classList.remove("visible");
 
@@ -39,6 +46,7 @@ searchRepository.oninput = async (event) => {
         postAutocomplete(option, optionName["full_name"]);
       }
     } catch(err) {
+        controller = null;
         console.log(err);
         const option = document.createElement("p");
         if (err.message.includes("full_name")) {
