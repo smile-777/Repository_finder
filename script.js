@@ -257,7 +257,7 @@ function addOptionListener(option) {
 
 function addSpiner() {
   const spiner = document.createElement("img");
-  spiner.src = "./pics/spiner.svg";
-  spiner.classList.add("spiner");
+  spiner.src = "./pics/preloader.svg";
+  spiner.classList.add("preloader");
   autocomplete.appendChild(spiner);
 }
