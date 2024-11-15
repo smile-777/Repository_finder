@@ -8,7 +8,6 @@ const getDelay = 500;
 let controller;
 let signal;
 let reposMap;
-//localStorage.clear();
 
 if (localStorage.getItem("repositories")){
   reposMap = new Map(Object.entries(JSON.parse(localStorage.getItem("repositories"))));
@@ -52,9 +51,6 @@ searchRepository.oninput = async (event) => {
   }
 };
 
-
-//======== functions =========
-
 async function getData(val) {
   //console.log("fetch!");
   try {
@@ -79,7 +75,6 @@ const debounce = (fn, delay) => {
     });
   }
 };
-
 const debounceGetData = debounce(getData, getDelay);
 
 function renderCard(value, repName) {
@@ -131,7 +126,6 @@ function addOptionListener(option) {
   if (reposMapSize !== reposMap.size) {
     renderCard(option, option["full_name"]);
   }
-  //form_input.value = '';
 }
 
 function addSpiner() {
