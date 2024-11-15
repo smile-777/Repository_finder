@@ -34,10 +34,10 @@ searchRepository.oninput = async (event) => {
   if (searchRepository.name.value.length) {
     try {
       const response = await debounceGetData(searchRepository.name.value).then(res => {
-        controller = null;
+        //controller = null;
         return res();
       });
-      //controller = null;
+      controller = null;
       const responseJson = await response.json();
       preloader.classList.remove("visible");
 
