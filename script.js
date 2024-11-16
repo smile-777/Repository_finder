@@ -30,15 +30,15 @@ searchRepository.oninput = async (event) => {
     try {
       const response = await debounceGetData(searchRepository.name.value).then(res => res());
       const responseJson = await response.json();
-      const reposCount = responseJson["items"].length >= 5 ? 5 : responseJson["items"].length;
+      const reposCount = responseJson.items.length >= 5 ? 5 : responseJson.items.length;
       clearAutocomplete();
       if (reposCount === 0) throw new Error("repository not found");
 
       for (let i = 0; i < reposCount; i++) {
-        const optionName = responseJson["items"][i];
+        const optionName = responseJson.items[i];
         const option = document.createElement("p");
         option.addEventListener("click", () => addOptionListener(optionName));
-        postAutocomplete(option, optionName["full_name"]);
+        postAutocomplete(option, optionName.full_name);
       }
     } catch(err) {
         console.log(err);
@@ -80,12 +80,12 @@ const debounceGetData = debounce(getData, getDelay);
 
 function renderCard(value, repName) {
   let clone = rep_elem.cloneNode(true);
-  clone.children[0].textContent = value["name"];
+  clone.children[0].textContent = value.name;
 
-  if (!value["owner"]) clone.children[1].textContent = value["login"];
-  else clone.children[1].textContent = value["owner"]["login"];
+  if (!value.owner) clone.children[1].textContent = value.login;
+  else clone.children[1].textContent = value.owner.login;
 
-  clone.children[2].textContent += value["stargazers_count"];
+  clone.children[2].textContent += value.stargazers_count;
   let closeCross = clone.querySelector(".close");
 
   closeCross.addEventListener("click", () => {
@@ -115,17 +115,17 @@ function postAutocomplete(option, content) {
 }
 
 function addOptionListener(option) {
-  const reposContent = {"name": option["name"],
-                        "login": option["owner"]["login"],
-                        "stargazers_count": option["stargazers_count"],
+  const reposContent = {"name": option.name,
+                        "login": option.owner.login,
+                        "stargazers_count": option.stargazers_count,
                        };
 
   const reposMapSize = reposMap.size;
-  reposMap.set(option["full_name"], reposContent);
-  writeToStorage(reposMap, option["full_name"]);
+  reposMap.set(option.full_name, reposContent);
+  writeToStorage(reposMap, option.full_name);
 
   if (reposMapSize !== reposMap.size) {
-    renderCard(option, option["full_name"]);
+    renderCard(option, option.full_name);
   }
 }
 
