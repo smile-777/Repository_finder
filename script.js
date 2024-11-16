@@ -6,7 +6,6 @@ const rep_elem = repository_template.querySelector('.rep-elem');
 const preloader = document.querySelector(".preloader");
 const getDelay = 500;
 let controller;
-let signal;
 let reposMap;
 
 if (localStorage.getItem("repositories")){
@@ -33,7 +32,6 @@ searchRepository.oninput = async (event) => {
       const responseJson = await response.json();
       const reposCount = responseJson["items"].length >= 5 ? 5 : responseJson["items"].length;
       clearAutocomplete();
-      
       if (reposCount === 0) throw new Error("repository not found");
 
       for (let i = 0; i < reposCount; i++) {
@@ -55,6 +53,9 @@ searchRepository.oninput = async (event) => {
 };
 
 async function getData(val) {
+  controller = new AbortController();
+  const signal = controller.signal;
+
   try {
     return await fetch(`https://api.github.com/search/repositories?q=${val}`, 
       { method: 'GET', 
@@ -68,15 +69,13 @@ const debounce = (fn, delay) => {
   return function(...args) {
     if (timerId) clearTimeout(timerId);
 
-    controller = new AbortController();
-    signal = controller.signal;
-
     return new Promise(resolve => {
       let delayFn = fn.bind(this, ...args);
       timerId = setTimeout(() => resolve(delayFn), delay);
     });
   }
 };
+
 const debounceGetData = debounce(getData, getDelay);
 
 function renderCard(value, repName) {
