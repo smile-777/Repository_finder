@@ -39,7 +39,7 @@ searchRepository.oninput = async (event) => {
       for (let i = 0; i < reposCount; i++) {
         const optionName = responseJson["items"][i];
         const option = document.createElement("p");
-        option.addEventListener("click", addOptionListener.bind(this, optionName));
+        option.addEventListener("click", () => addOptionListener(optionName));
         postAutocomplete(option, optionName["full_name"]);
       }
     } catch(err) {
